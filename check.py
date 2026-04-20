@@ -27,23 +27,28 @@ def on_pilet_saadaval(url):
     nupp = soup.find("a", class_=lambda c: c and "btn-default" in c and "pull-right" in c)
     return nupp is not None
 
-def saada_email(leidude_nimekiri):
-    saatja = "sinuemail@gmail.com"
-    saaja = "sinuemail@gmail.com"
-    parool = os.environ["EMAIL_PASS"]  # GitHub Secret
+import urllib.request
+import json
 
-    sisu = "Piletid on saadaval järgmistele etendustele:\n\n"
+def saada_teade(leidude_nimekiri):
+    token = os.environ["TG_TOKEN"]
+    chat_id = os.environ["TG_CHAT_ID"]
+
+    tekst = "🎭 Piletid saadaval!\n\n"
     for nimi, url in leidude_nimekiri:
-        sisu += f"  • {nimi}: {url}\n"
+        tekst += f"• {nimi}\n{url}\n\n"
 
-    msg = MIMEText(sisu)
-    msg["Subject"] = "🎭 Piletid saadaval!"
-    msg["From"] = saatja
-    msg["To"] = saaja
+    data = json.dumps({
+        "chat_id": chat_id,
+        "text": tekst
+    }).encode()
 
-    with smtplib.SMTP_SSL("smtp.gmail.com", 465) as server:
-        server.login(saatja, parool)
-        server.send_message(msg)
+    req = urllib.request.Request(
+        f"https://api.telegram.org/bot{token}/sendMessage",
+        data=data,
+        headers={"Content-Type": "application/json"}
+    )
+    urllib.request.urlopen(req)
 
 def main():
     leitud = []
