@@ -1,0 +1,24 @@
+name: Pileti monitor
+
+on:
+  schedule:
+    - cron: '0 7,12,17,20 * * *'  # kell 7, 12, 17 ja 20 (UTC ehk +3 Eestis)
+  workflow_dispatch:
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Paigalda sõltuvused
+        run: pip install requests beautifulsoup4
+
+      - name: Kontrolli pileteid
+        env:
+          EMAIL_PASS: ${{ secrets.EMAIL_PASS }}
+        run: python check.py
