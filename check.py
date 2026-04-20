@@ -18,7 +18,7 @@ LEHED = [
         "url": "https://www.piletimaailm.com/performances/149249-500-aastat-soprust?lang=et_EE"
     },
         {
-        "nimi": "500 aastat sõprust",
+        "nimi": "Kuningas UBU",
         "url": "https://www.piletimaailm.com/performances/145717-kuningas-ubu?lang=et_EE"
     },
 ]
