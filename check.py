@@ -4,24 +4,17 @@ import urllib.request
 import json
 import os
 
-LEHED = [
-    {
-        "nimi": "Rahamaa",
-        "url": "https://www.piletimaailm.com/performances/135039-rahamaa?lang=et_EE"
-    },
-    {
-        "nimi": "B-koondis",
-        "url": "https://www.piletimaailm.com/performances/130852-b-koondis?lang=et_EE"
-    },
-    {
-        "nimi": "500 aastat sõprust",
-        "url": "https://www.piletimaailm.com/performances/149249-500-aastat-soprust?lang=et_EE"
-    },
-    {
-        "nimi": "Kuningas UBU",
-        "url": "https://www.piletimaailm.com/performances/145717-kuningas-ubu?lang=et_EE"
-    },
-]
+def loe_lehed(failinimi="lehed.txt"):
+    lehed = []
+    with open(failinimi, "r") as f:
+        for rida in f:
+            rida = rida.strip()
+            if rida and not rida.startswith("#"):
+                # Võta nimi URL-ist automaatselt
+                nimi = rida.split("/performances/")[-1].split("?")[0]
+                nimi = nimi.split("-", 1)[-1].replace("-", " ").title()
+                lehed.append({"nimi": nimi, "url": rida})
+    return lehed
 
 def on_pilet_saadaval(url):
     headers = {
@@ -56,8 +49,11 @@ def saada_teade(leidude_nimekiri):
     urllib.request.urlopen(req)
 
 def main():
+    lehed = loe_lehed()
+    print(f"Kontrollin {len(lehed)} etendust...")
+
     leitud = []
-    for leht in LEHED:
+    for leht in lehed:
         print(f"Kontrollin: {leht['nimi']}...")
         if on_pilet_saadaval(leht["url"]):
             print(f"  ✅ PILETID SAADAVAL: {leht['nimi']}")
