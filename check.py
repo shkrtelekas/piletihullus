@@ -1,7 +1,7 @@
 import requests
 from bs4 import BeautifulSoup
-import smtplib
-from email.mime.text import MIMEText
+import urllib.request
+import json
 import os
 
 LEHED = [
@@ -17,22 +17,23 @@ LEHED = [
         "nimi": "500 aastat sõprust",
         "url": "https://www.piletimaailm.com/performances/149249-500-aastat-soprust?lang=et_EE"
     },
-        {
+    {
         "nimi": "Kuningas UBU",
         "url": "https://www.piletimaailm.com/performances/145717-kuningas-ubu?lang=et_EE"
     },
 ]
 
 def on_pilet_saadaval(url):
-    headers = {"User-Agent": "Mozilla/5.0"}
+    headers = {
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36",
+        "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+        "Accept-Language": "et-EE,et;q=0.9,en;q=0.8",
+        "Accept-Encoding": "gzip, deflate, br",
+    }
     resp = requests.get(url, headers=headers, timeout=10)
     soup = BeautifulSoup(resp.text, "html.parser")
-    # Otsime täpselt seda nuppu
     nupp = soup.find("a", class_=lambda c: c and "btn-default" in c and "pull-right" in c)
     return nupp is not None
-
-import urllib.request
-import json
 
 def saada_teade(leidude_nimekiri):
     token = os.environ["TG_TOKEN"]
