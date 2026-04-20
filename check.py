@@ -66,8 +66,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
-if __name__ == "__main__":
-    main()
-    # AJUTINE TEST - kustuta pärast
-    saada_teade([("Test etendus", "https://test.ee")])
