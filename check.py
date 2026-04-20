@@ -61,7 +61,7 @@ def main():
             print(f"  ❌ Pole saadaval")
 
     if leitud:
-        saada_email(leitud)
+        saada_teade(leitud)
         print("Teavitus saadetud!")
 
 if __name__ == "__main__":
