@@ -20,5 +20,6 @@ jobs:
 
       - name: Kontrolli pileteid
         env:
-          EMAIL_PASS: ${{ secrets.EMAIL_PASS }}
+          TG_TOKEN: ${{ secrets.TG_TOKEN }}
+          TG_CHAT_ID: ${{ secrets.TG_CHAT_ID }}
         run: python check.py
