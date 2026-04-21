@@ -24,6 +24,8 @@ def on_pilet_saadaval(url):
         "Accept-Encoding": "gzip, deflate, br",
     }
     resp = requests.get(url, headers=headers, timeout=10)
+    print(f"  Status: {resp.status_code}")
+    print(f"  Lehe algus: {resp.text[:500]}")  # näitab mis leht tagastab
     soup = BeautifulSoup(resp.text, "html.parser")
     nupp = soup.find("a", class_=lambda c: c and "btn-default" in c and "pull-right" in c)
     return nupp is not None
