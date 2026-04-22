@@ -21,11 +21,11 @@ def on_pilet_saadaval(url):
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36",
         "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
         "Accept-Language": "et-EE,et;q=0.9,en;q=0.8",
-        "Accept-Encoding": "gzip, deflate, br",
     }
-    resp = requests.get(url, headers=headers, timeout=10)
+    session = requests.Session()
+    resp = session.get(url, headers=headers, timeout=10)
     print(f"  Status: {resp.status_code}")
-    print(f"  Lehe algus: {resp.text[:500]}")  # näitab mis leht tagastab
+    print(f"  Lehe algus: {resp.text[:300]}")
     soup = BeautifulSoup(resp.text, "html.parser")
     nupp = soup.find("a", class_=lambda c: c and "btn-default" in c and "pull-right" in c)
     return nupp is not None
