@@ -1,25 +1,4 @@
-name: Pileti monitor
-
-on:
-  schedule:
-    - cron: '0 7,12,17,20 * * *'  # kell 7, 12, 17 ja 20 (UTC ehk +3 Eestis)
-  workflow_dispatch:
-
-jobs:
-  check:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4.2.2
-
-      - uses: actions/setup-python@v5.6.0
-        with:
-          python-version: '3.11'
-
-      - name: Paigalda sõltuvused
-        run: pip install requests beautifulsoup4
-
-      - name: Kontrolli pileteid
-        env:
-          TG_TOKEN: ${{ secrets.TG_TOKEN }}
-          TG_CHAT_ID: ${{ secrets.TG_CHAT_ID }}
-        run: python check.py
+- name: Paigalda sõltuvused
+        run: |
+          pip install playwright
+          playwright install chromium
